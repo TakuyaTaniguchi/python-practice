@@ -2,6 +2,8 @@
 
 A simple ToDo API built with FastAPI to learn Python web development.
 
+👉 **TypeScript/Ruby on Rails経験者向け学習ガイド**: [LEARNING_GUIDE.md](LEARNING_GUIDE.md)
+
 ## Features
 - RESTful API with CRUD operations for ToDo items
 - Data validation with Pydantic
