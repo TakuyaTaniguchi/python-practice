@@ -14,6 +14,10 @@ from enum import Enum
 # ヒント: Python の enum.Enum クラスを継承します
 # TODO: ここにPriorityクラスを実装
 
+class Priority(Enum):
+    LOW = 'low'
+    MEDIUM = 'medium'
+    HIGH = 'high'
 
 # 問題2: TodoCreateモデルを作成してください
 # 以下のフィールドが必要です:
@@ -24,9 +28,17 @@ from enum import Enum
 # ヒント: BaseModelを継承します
 # TODO: ここにTodoCreateクラスを実装
 
+class TodoCreate(BaseModel):
+    title: str
+    description: str = None
+    priority: Priority = Priority.MEDIUM
+    completed: bool = False
 
 # 問題3: TodoモデルをTodoCreateを継承して作成してください
 # TodoCreateの全フィールドに加えて、以下のフィールドが必要:
 # - id: 文字列（必須）
 # ヒント: TodoCreateを継承します
 # TODO: ここにTodoクラスを実装
+
+class Todo(TodoCreate):
+    id: str
