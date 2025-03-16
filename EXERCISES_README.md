@@ -19,6 +19,12 @@
    - ファイル: `exercises/ex3_async_operations.py`
    - テスト: `tests/test_ex3_async.py`
 
+4. **演習4: Python基本文法演習**
+   - リスト・辞書操作、可変性と参照、関数の高度な機能など
+   - TypeScriptやRubyから入った人が躓きやすいポイントを学ぶ
+   - ファイル: `exercises/ex4_python_basics.py`
+   - テスト: `tests/test_ex4_python_basics.py`
+
 ## 演習の進め方
 
 1. 各演習ファイル（`exercises/`ディレクトリ内）を開き、コメントで指示されている内容に従ってコードを実装してください
@@ -37,6 +43,7 @@ pip install pytest pytest-asyncio
 python tests/test_ex1_models.py
 python tests/test_ex2_api_routes.py
 python tests/test_ex3_async.py
+python tests/test_ex4_python_basics.py
 
 # または全テストを一度に実行
 pytest
@@ -179,6 +186,143 @@ class AsyncTimer:
         
     def __lt__(self, other):
         return float(self) < other
+```
+</details>
+
+<details>
+<summary>演習4の解答例</summary>
+
+```python
+# 問題1: リスト操作関数
+def list_operations():
+    # 元のリスト
+    original = [1, 2, 3, 4, 5]
+    
+    # 問題1-1: スライスでリストの最初の3要素を取得
+    result1 = original[0:3]  # original[:3] でも可
+    
+    # 問題1-2: リストを逆順にする
+    result2 = original[::-1]
+    
+    # 問題1-3: リスト内包表記で各要素を2倍にする
+    result3 = [x * 2 for x in original]
+    
+    # 問題1-4: リストに要素を追加
+    original.extend([6, 7, 8])
+    result4 = original
+    
+    return (result1, result2, result3, result4)
+
+# 問題2: 辞書操作関数
+def dict_operations():
+    # 元の辞書
+    user = {
+        "name": "Taro",
+        "age": 30,
+        "skills": ["Python", "JavaScript"]
+    }
+    
+    # 問題2-1: 辞書から安全に値を取得
+    result1 = user.get("email", "Not found")
+    
+    # 問題2-2: 辞書内包表記で各キーと値の長さを持つ辞書を作成
+    result2 = {
+        key: len(value) if isinstance(value, (str, list, tuple, dict)) else 1
+        for key, value in user.items()
+    }
+    
+    # 問題2-3: 辞書に要素を追加
+    user["email"] = "taro@example.com"
+    result3 = user
+    
+    # 問題2-4: 辞書のキーと値を入れ替え
+    result4 = {value: key for key, value in user.items() if isinstance(value, str)}
+    
+    return (result1, result2, result3, result4)
+
+# 問題3: 可変性と参照関数
+def mutability_and_references():
+    # 問題3-1: リストのコピー方法
+    original = [1, 2, [3, 4]]
+    shallow_copy = original.copy()
+    import copy
+    deep_copy = copy.deepcopy(original)
+    
+    original[2][0] = 99
+    result1 = (original, shallow_copy, deep_copy)
+    
+    # 問題3-2: 可変デフォルト引数の問題
+    def append_to_list(item, target_list=None):
+        if target_list is None:
+            target_list = []
+        target_list.append(item)
+        return target_list
+    
+    result2a = append_to_list(1)
+    result2b = append_to_list(2)
+    result2c = append_to_list(3)
+    result2 = (result2a, result2b, result2c)
+    
+    # 問題3-3: 文字列連結とリスト連結の挙動
+    def string_concatenation():
+        s = "Hello"
+        str_id_before = id(s)
+        s += " World"
+        str_id_after = id(s)
+        
+        lst = [1, 2, 3]
+        list_id_before = id(lst)
+        lst += [4, 5]
+        list_id_after = id(lst)
+        
+        return (str_id_before, str_id_after, list_id_before, list_id_after)
+    
+    result3 = string_concatenation()
+    
+    return (result1, result2, result3)
+
+# 問題4: 関数の高度な機能
+def advanced_functions():
+    # 問題4-1: ラムダ関数を使ったソート
+    numbers = [1, 5, 2, 4, 3]
+    result1 = sorted(numbers, key=lambda x: x**2)
+    
+    # 問題4-2: デコレータ関数
+    def timing_decorator(func):
+        def wrapper(*args, **kwargs):
+            import time
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            execution_time = end_time - start_time
+            return execution_time, result
+        return wrapper
+    
+    @timing_decorator
+    def slow_function():
+        import time
+        time.sleep(0.1)
+        return "Done!"
+    
+    result2 = slow_function()
+    
+    # 問題4-3: 可変長引数と辞書型可変長引数
+    def flexible_function(required_arg, *args, **kwargs):
+        return required_arg, args, kwargs
+    
+    result3 = flexible_function("必須", 1, 2, 3, name="Taro", age=30)
+    
+    # 問題4-4: クロージャを使った関数ファクトリ
+    def multiplier_factory(factor):
+        def multiplier(x):
+            return x * factor
+        return multiplier
+    
+    double = multiplier_factory(2)
+    triple = multiplier_factory(3)
+    result4 = (double(5), triple(5))
+    
+    return (result1, result2, result3, result4)
 ```
 </details>
 
