@@ -48,16 +48,12 @@ def get_todos():
 # ヒント: HTTPExceptionを使用してエラーを返す
 # TODO: ここにget_todo関数を実装
 
-@app.get("/todos/{todo_id}",response_model=Todo)
+@app.get("/todos/{todo_id}", response_model=Todo)
 def get_todo(todo_id: UUID):
-    result = []
     for todo in todos:
-        if todo.id == todo_id:
-            result.append(todo)
-    if result:
-        return result
-    else:
-        raise HTTPException(status_code=404, detail="Item not found")
+        if str(todo.id) == str(todo_id):
+            return todo
+    raise HTTPException(status_code=404, detail="Todo not found")
 
 # 問題4: 新しいTodoを作成するエンドポイントを実装してください
 # パス: "/todos"
@@ -67,11 +63,10 @@ def get_todo(todo_id: UUID):
 # ヒント: status_codeパラメータを使用してください
 # TODO: ここにcreate_todo関数を実装
 
-@app.post("/todos",response_model=Todo,status_code=201)
+@app.post("/todos", response_model=Todo, status_code=201)
 def create_todo(todo: TodoCreate):
-    new_todo = Todo(id=str(uuid4()),**dict(todo))
+    new_todo = Todo(id=str(uuid4()), **todo.dict())
     todos.append(new_todo)
-    HTTPException(status_code=201, detail="Item not found")
     return new_todo
 
 
@@ -84,19 +79,14 @@ def create_todo(todo: TodoCreate):
 # 戻り値: 更新されたTodo、または404エラー
 # TODO: ここにupdate_todo関数を実装
 
-@app.put("/todos/{todo_id}",response_model=Todo)
+@app.put("/todos/{todo_id}", response_model=Todo)
 def update_todo(todo_id: UUID, todo_update: TodoCreate):
-
-    for index,todo in enumerate(todos):
-        if todo.id == todo_id:
+    for index, todo in enumerate(todos):
+        if str(todo.id) == str(todo_id):
             updated_todo = Todo(id=str(todo_id), **todo_update.dict())
             todos[index] = updated_todo
             return updated_todo
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Todo with ID {todo_id} not found"
-    )
-
+    raise HTTPException(status_code=404, detail="Todo not found")
 # 問題6: Todoを削除するエンドポイントを実装してください
 # パス: "/todos/{todo_id}"
 # メソッド: DELETE
@@ -104,17 +94,13 @@ def update_todo(todo_id: UUID, todo_update: TodoCreate):
 # 戻り値: なし（204ステータスコード）、または404エラー
 # TODO: ここにdelete_todo関数を実装
 
-# 問題6: Todoを削除するエンドポイント
-@app.delete("/todos/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_todo(todo_id: UUID):
+@app.delete("/todos/{todo_id}", status_code=204)
+def delete_todo(todo_id: UUID):
     for index, todo in enumerate(todos):
-        if todo.id == todo_id:
+        if str(todo.id) == str(todo_id):
             todos.pop(index)
             return
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Todo with ID {todo_id} not found"
-    )
+    raise HTTPException(status_code=404, detail="Todo not found")
 
 
 
