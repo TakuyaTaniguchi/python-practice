@@ -21,21 +21,24 @@ def list_operations():
 
     # 問題1-1: スライスを使って、リストの最初の3要素を取得してください
     # ヒント: [start:end] 形式を使用します
-    result1 = None  # ここを実装
+    result1 = original[0:3] # ここを実装
 
     # 問題1-2: 元のリストを変更せずに、リストの要素を逆順にした新しいリストを作成してください
     # ヒント: スライスのステップパラメータを使用します
-    result2 = None  # ここを実装
+    result2 = original[::-1]  # ここを実装
 
     # 問題1-3: リスト内包表記を使って、originalリストの各要素を2倍にした新しいリストを作成してください
     # ヒント: [expression for item in iterable]
-    result3 = None  # ここを実装
+    result3 = [i*2 for i in original] # ここを実装
 
     # 問題1-4: 元のリストを破壊的に変更して、リストに[6, 7, 8]を追加してください
     # ヒント: extendメソッドを使用します
-    result4 = None  # ここを実装し、originalリストを返す
 
-    return (result1, result2, result3, result4)
+    # Note extendメソッドは戻り値がNoneである。
+    original.extend((6, 7, 8))
+    result4 = original  # ここを実装し、originalリストを返す
+
+    return result1, result2, result3, result4
 
 
 # 問題2: 辞書（ディクショナリ）操作
