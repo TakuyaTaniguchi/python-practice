@@ -60,7 +60,7 @@ def dict_operations():
 
     # 問題2-1: 辞書から安全に'email'キーの値を取得してください（キーが存在しない場合は'Not found'を返す）
     # ヒント: getメソッドを使用します
-    result1 = None  # ここを実装
+    result1 = user.get('email')  # ここを実装
 
     # 問題2-2: 辞書内包表記を使って、userの各キーとその値の長さ（文字列の場合は長さ、リストの場合は要素数）を持つ新しい辞書を作成してください
     # ヒント: {key: expression for (key, value) in dictionary.items()}
