@@ -60,7 +60,7 @@ def dict_operations():
 
     # 問題2-1: 辞書から安全に'email'キーの値を取得してください（キーが存在しない場合は'Not found'を返す）
     # ヒント: getメソッドを使用します
-    result1 = user.get('email')  # ここを実装
+    result1 = user.get('email', 'Not found')  # ここを実装
 
     # 問題2-2: 辞書内包表記を使って、userの各キーとその値の長さ（文字列の場合は長さ、リストの場合は要素数）を持つ新しい辞書を作成してください
     # ヒント: {key: expression for (key, value) in dictionary.items()}
@@ -69,7 +69,7 @@ def dict_operations():
         if isinstance(value, (list,tuple,str,dict,set)):
             return len(value)
         elif isinstance(value,(int,float)):
-            return len(str(value))
+            return 1
         else:
             return 0
 
@@ -78,11 +78,17 @@ def dict_operations():
 
     # 問題2-3: 元の辞書に'email'キーと値'taro@example.com'を追加し、更新された辞書を返してください
     # ヒント: 辞書の更新方法を使用します
-    result3 = None  # ここを実装
+    user['email'] = 'taro@example.com'
+    result3 = user # ここを実装
 
     # 問題2-4: 辞書のキーと値を入れ替えた新しい辞書を作成してください（値が文字列の場合のみ）
     # ヒント: 条件付き辞書内包表記を使用します
-    result4 = None  # ここを実装
+
+    # 問題2-4: 辞書のキーと値を入れ替えた新しい辞書を作成（値が文字列の場合のみ）
+    # 辞書内包表記を使用します
+    # ここを実装
+    result4 = {value: key for key, value in user.items() if isinstance(value, str) and key != "email"}
+
 
     return (result1, result2, result3, result4)
 
